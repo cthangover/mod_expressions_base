@@ -1,7 +1,7 @@
 {
   "id": "expressions_base",
   "name": "Expression Engine",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "author": "ct",
   "description": "Reusable numeric expressions with mod-defined function and operator strategies, strict runtime assignments and compatible game formulas.",
   "category": "engine, library",

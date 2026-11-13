@@ -30,7 +30,7 @@ Stats formulas retain their previous permissive behavior (unknown variables and 
 
 ## Mod-defined strategies
 
-Depend on `expressions_base>=1`. A public parameterless strategy in a normal mod source file is discovered when its assembly loads and removed when it unloads:
+Depend on `expressions_base>=0.1.0`. A public parameterless strategy in a normal mod source file is discovered when its assembly loads and removed when it unloads:
 
 ```csharp
 namespace ExampleMod
