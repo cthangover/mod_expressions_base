@@ -1,7 +1,7 @@
 namespace Cthangover.Mods.Stats.Formulas
 {
-    using System.Collections.Concurrent;
     using System.Globalization;
+    using Cthangover.Core.Mods.Memory;
     using Cthangover.Core.Utils;
 
     /// <summary>
@@ -16,8 +16,19 @@ namespace Cthangover.Mods.Stats.Formulas
     /// </summary>
     public static class Formula
     {
-        private static readonly ConcurrentDictionary<string, FormulaNode> Cache = new();
-        private static readonly ConcurrentDictionary<string, string> Broken = new();
+        private static readonly DictionaryCache<string, FormulaNode> Cache = new(preview: PreviewTree);
+        private static readonly ObservableDictionary<string, string> Broken = new(preview: PreviewError);
+
+        static Formula()
+        {
+            var memory = ModMemoryService.Shared.TryFor(typeof(Formula).Assembly);
+            memory?.Track("parsed_formulas", Cache);
+            memory?.Track("logged_formula_errors", Broken);
+        }
+
+        private static MemoryPreviewEntry PreviewTree(string text, FormulaNode node) => new(text, node.GetType().Name);
+
+        private static MemoryPreviewEntry PreviewError(string text, string error) => new(text, error);
 
         /// <summary>Strategy registration/unload changes the valid vocabulary; cached trees hold only names and literals.</summary>
         public static void ClearCache() { Cache.Clear(); Broken.Clear(); }
